@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel, EmailStr, field_validator
 
 
@@ -49,7 +51,7 @@ class ResetPasswordRequest(BaseModel):
 
 
 class UserOut(BaseModel):
-    id:          str
+    id:          UUID
     email:       str
     is_verified: bool
 

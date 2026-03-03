@@ -56,12 +56,11 @@ async def verify_email(token: str, db: AsyncSession) -> None:
     )
     if not user:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid or expired token.")
-    if user.is_verified:
-        return   # idempotent
 
     user.is_verified        = True
     user.verification_token = None
     await db.commit()
+    await db.refresh(user)  # ensure is_verified=True is reflected in session
 
 
 # ─── LOGIN ────────────────────────────────────────────────────────────────────
